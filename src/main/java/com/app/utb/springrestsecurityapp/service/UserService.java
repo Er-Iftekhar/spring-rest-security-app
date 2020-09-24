@@ -8,4 +8,6 @@ public interface UserService {
     UserDto saveUser(UserDto userDto);
 
     UserDto getUser(String email);
+
+    UserDto getUserById(String userId);
 }
