@@ -5,7 +5,12 @@ import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.request.UserDetailsRequestModel;
 import com.app.utb.springrestsecurityapp.ui.response.UserRest;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.*;
+
+import static java.awt.PageAttributes.*;
 
 @RestController
 @RequestMapping("/users")
@@ -17,7 +22,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE})
     public UserRest getUser(@PathVariable String id){
         UserRest returnedValue = new UserRest();
         UserDto userDto = userService.getUserById(id);
@@ -26,7 +33,16 @@ public class UserController {
         return returnedValue;
     }
 
-    @PostMapping
+    @PostMapping(
+            consumes = {
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            },
+            produces = {
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            }
+    )
     public UserRest createUser(@RequestBody UserDetailsRequestModel userDetailsRequestModel){
 
         UserDto userDto=new UserDto();
