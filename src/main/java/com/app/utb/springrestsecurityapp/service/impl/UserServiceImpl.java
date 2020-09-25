@@ -4,6 +4,7 @@ import com.app.utb.springrestsecurityapp.dto.UserDto;
 import com.app.utb.springrestsecurityapp.entity.UserEntity;
 import com.app.utb.springrestsecurityapp.repositories.UserRepository;
 import com.app.utb.springrestsecurityapp.service.UserService;
+import com.app.utb.springrestsecurityapp.ui.response.ErrorMessages;
 import com.app.utb.springrestsecurityapp.utils.Utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -64,6 +65,25 @@ public class UserServiceImpl implements UserService {
         if(userEntity ==null)
             throw new UsernameNotFoundException("User with id="+userId+ " does not exists");
         BeanUtils.copyProperties(userEntity, returnedValue);
+        return returnedValue;
+    }
+
+    @Override
+    public UserDto updateUser(String userId, UserDto user) {
+        UserEntity userToBeUpdated = userRepository.findByUserId(userId);
+
+        if( userToBeUpdated == null )
+            throw new UsernameNotFoundException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+
+
+        userToBeUpdated.setFirstName(user.getFirstName());
+        userToBeUpdated.setLastName(user.getLastName());
+
+//        BeanUtils.copyProperties(user, userToBeUpdated);
+        UserEntity updatedUser = userRepository.save(userToBeUpdated);
+        UserDto returnedValue = new UserDto();
+        BeanUtils.copyProperties(updatedUser, returnedValue);
+
         return returnedValue;
     }
 }
