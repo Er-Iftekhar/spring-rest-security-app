@@ -4,8 +4,7 @@ import com.app.utb.springrestsecurityapp.dto.UserDto;
 import com.app.utb.springrestsecurityapp.exceptions.UserServiceException;
 import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.request.UserDetailsRequestModel;
-import com.app.utb.springrestsecurityapp.ui.response.ErrorMessages;
-import com.app.utb.springrestsecurityapp.ui.response.UserRest;
+import com.app.utb.springrestsecurityapp.ui.response.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -87,8 +86,21 @@ public class UserController {
         return returnedValue;
     }
 
-    @DeleteMapping
-    public String deleteUser(){
-        return "deleteUser() called";
+    @DeleteMapping(path = "/{id}",
+        produces = {
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
+    }
+    )
+    public OperationStatusModel deleteUser(
+            @PathVariable String id
+    ){
+        OperationStatusModel returnedValue = new OperationStatusModel();
+        returnedValue.setOperationName(RequestOperationName.DELETE.name());
+
+        userService.deleteUser(id);
+
+        returnedValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        return returnedValue;
     }
 }
