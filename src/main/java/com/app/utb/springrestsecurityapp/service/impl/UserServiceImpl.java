@@ -7,9 +7,16 @@ import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.response.ErrorMessages;
 import com.app.utb.springrestsecurityapp.utils.Utils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -96,5 +103,25 @@ public class UserServiceImpl implements UserService {
 
 
 
+    }
+
+    @Override
+    public List<UserDto> getUsers(int page, int limit) {
+        if(page > 0)
+            page -= 1;
+
+        Pageable pageable = PageRequest.of(page, limit);
+
+        Page<UserEntity> userEntities = userRepository.findAll(pageable);
+        List<UserEntity> usersList = userEntities.getContent();
+
+        List<UserDto> returnedValue = new ArrayList<>();
+
+        for (UserEntity user: usersList) {
+            UserDto userDto = new UserDto();
+            BeanUtils.copyProperties(user, userDto);
+            returnedValue.add(userDto);
+        }
+        return returnedValue;
     }
 }

@@ -9,7 +9,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.awt.PageAttributes.*;
 
@@ -101,6 +104,28 @@ public class UserController {
         userService.deleteUser(id);
 
         returnedValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        return returnedValue;
+    }
+
+    @GetMapping(
+            produces = {
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            }
+    )
+    public List<UserRest> getUsers(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "limit", defaultValue = "25") int limit
+    ){
+        List<UserRest> returnedValue = new ArrayList<>();
+        List<UserDto> userDtoList = userService.getUsers(page, limit);
+
+        for (UserDto user : userDtoList) {
+            UserRest userRest = new UserRest();
+            BeanUtils.copyProperties( user, userRest);
+            returnedValue.add(userRest);
+        }
+
         return returnedValue;
     }
 }
