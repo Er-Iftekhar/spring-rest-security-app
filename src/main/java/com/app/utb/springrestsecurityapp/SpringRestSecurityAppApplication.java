@@ -16,5 +16,4 @@ public class SpringRestSecurityAppApplication extends SpringBootServletInitializ
     public static void main(String[] args) {
         SpringApplication.run(SpringRestSecurityAppApplication.class, args);
     }
-
 }
