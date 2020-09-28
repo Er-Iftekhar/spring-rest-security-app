@@ -1,11 +1,13 @@
 package com.app.utb.springrestsecurityapp.service.impl;
 
+import com.app.utb.springrestsecurityapp.dto.AddressDto;
 import com.app.utb.springrestsecurityapp.dto.UserDto;
 import com.app.utb.springrestsecurityapp.entity.UserEntity;
 import com.app.utb.springrestsecurityapp.repositories.UserRepository;
 import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.response.ErrorMessages;
 import com.app.utb.springrestsecurityapp.utils.Utils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
@@ -39,17 +41,29 @@ public class UserServiceImpl implements UserService {
         if(enteredUser != null)
             throw new RuntimeException("create user already exists");
 
-        UserEntity userEntity = new UserEntity();
+        //Simce user can have multiple address
+        //we need to loop through the request and
+        //generate address for each user as shown below
+        for(int i = 0; i < userDto.getAddresses().size();  i++){
+            AddressDto addressDto = userDto.getAddresses().get(i);
+            addressDto.setUserDetails(userDto);
+            addressDto.setAddressId(utils.generateAddressId(30));
+            userDto.getAddresses().set(i, addressDto);
+        }
+
         userDto.setUserId(utils.generateUserId(30));
-        BeanUtils.copyProperties(userDto, userEntity);
+
+        ModelMapper modelMapper = new ModelMapper();
+        //BeanUtils.copyProperties(userDto, userEntity);
+        UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
 //        userEntity.setUserId("testId");
         userEntity.setEncryptedPassword(passwordEncoder.encode("pass"));
         userEntity.setEmailVerificationToken("testToken");
         UserEntity storedUser = userRepository.save(userEntity);
 
-        UserDto returnedValue = new UserDto();
-        BeanUtils.copyProperties(storedUser, returnedValue);
 
+//        BeanUtils.copyProperties(storedUser, returnedValue);
+        UserDto returnedValue = modelMapper.map(storedUser, UserDto.class);
         return returnedValue;
     }
 

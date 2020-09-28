@@ -1,6 +1,7 @@
 package com.app.utb.springrestsecurityapp.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +30,12 @@ public class UserEntity {
 
     @Column(nullable = false)
     private boolean emailVerificationStatus = false;
+
+    @OneToMany(
+            mappedBy = "userDetails",
+            cascade = CascadeType.ALL
+    )
+    private List<AddressEntity> addresses;
 
     public Long getId() {
         return id;
@@ -92,5 +99,13 @@ public class UserEntity {
 
     public void setEmailVerificationStatus(boolean emailVerificationStatus) {
         this.emailVerificationStatus = emailVerificationStatus;
+    }
+
+    public List<AddressEntity> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressEntity> addresses) {
+        this.addresses = addresses;
     }
 }

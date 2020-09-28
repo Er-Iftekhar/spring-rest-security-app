@@ -1,5 +1,7 @@
 package com.app.utb.springrestsecurityapp.dto;
 
+import java.util.List;
+
 public class UserDto {
 
     private Long id;
@@ -11,6 +13,15 @@ public class UserDto {
     private String encryptedPassword;
     private String emailVerificationToken;
     private boolean emailVerificationStatus = false;
+    private List<AddressDto> addresses;
+
+    public List<AddressDto> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressDto> addresses) {
+        this.addresses = addresses;
+    }
 
     public Long getId() {
         return id;
@@ -83,4 +94,6 @@ public class UserDto {
     public void setEmailVerificationStatus(boolean emailVerificationStatus) {
         this.emailVerificationStatus = emailVerificationStatus;
     }
+
+
 }

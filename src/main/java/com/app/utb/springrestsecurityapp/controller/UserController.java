@@ -5,6 +5,7 @@ import com.app.utb.springrestsecurityapp.exceptions.UserServiceException;
 import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.request.UserDetailsRequestModel;
 import com.app.utb.springrestsecurityapp.ui.response.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -54,14 +55,17 @@ public class UserController {
         if( userDetailsRequestModel.getFirstName().isEmpty())
             throw new UserServiceException("user object is null");
 
-        UserDto userDto=new UserDto();
-        BeanUtils.copyProperties(userDetailsRequestModel, userDto);
+        //UserDto userDto=new UserDto();
+        //BeanUtils.copyProperties(userDetailsRequestModel, userDto);
+        ModelMapper modelMapper = new ModelMapper();
+        UserDto userDto = modelMapper.map(userDetailsRequestModel, UserDto.class);
 
         UserDto storedValue = userService.saveUser(userDto);
 
         UserRest returnedValue = new UserRest();
 
-        BeanUtils.copyProperties(userDto, returnedValue);
+      //  BeanUtils.copyProperties(userDto, returnedValue);
+        returnedValue = modelMapper.map(storedValue, UserRest.class);
         return returnedValue;
     }
 
