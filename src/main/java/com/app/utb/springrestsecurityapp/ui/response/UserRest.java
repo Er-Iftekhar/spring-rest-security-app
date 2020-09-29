@@ -1,9 +1,11 @@
 package com.app.utb.springrestsecurityapp.ui.response;
 
 import com.app.utb.springrestsecurityapp.dto.AddressDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserRest {
 
     private String userId;

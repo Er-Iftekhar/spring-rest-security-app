@@ -1,5 +1,6 @@
 package com.app.utb.springrestsecurityapp.service;
 
+import com.app.utb.springrestsecurityapp.dto.AddressDto;
 import com.app.utb.springrestsecurityapp.dto.UserDto;
 import com.app.utb.springrestsecurityapp.ui.response.UserRest;
 
@@ -18,4 +19,6 @@ public interface UserService {
     void deleteUser(String userId);
 
     List<UserDto> getUsers(int page, int limit);
+
+
 }

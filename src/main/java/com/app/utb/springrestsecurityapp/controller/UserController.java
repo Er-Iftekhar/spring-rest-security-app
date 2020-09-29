@@ -1,40 +1,46 @@
 package com.app.utb.springrestsecurityapp.controller;
 
+import com.app.utb.springrestsecurityapp.dto.AddressDto;
 import com.app.utb.springrestsecurityapp.dto.UserDto;
 import com.app.utb.springrestsecurityapp.exceptions.UserServiceException;
+import com.app.utb.springrestsecurityapp.service.AddressService;
 import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.request.UserDetailsRequestModel;
 import com.app.utb.springrestsecurityapp.ui.response.*;
+
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
-import java.awt.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.awt.PageAttributes.*;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
+    private final AddressService addressService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AddressService addressService) {
         this.userService = userService;
+        this.addressService = addressService;
     }
 
     @GetMapping(path = "/{id}",
             produces = {MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE})
     public UserRest getUser(@PathVariable String id){
-        UserRest returnedValue = new UserRest();
+
         UserDto userDto = userService.getUserById(id);
 
-        BeanUtils.copyProperties(userDto, returnedValue);
+//        BeanUtils.copyProperties(userDto, returnedValue);
+        ModelMapper modelMapper = new ModelMapper();
+        UserRest returnedValue = modelMapper.map(userDto, UserRest.class);
         return returnedValue;
     }
 
@@ -131,5 +137,52 @@ public class UserController {
         }
 
         return returnedValue;
+    }
+
+
+    //http://localhost:2020/spring-rest-security-app/users/{userId}/addresses
+    @GetMapping(
+            path = "/{id}/addresses",
+            produces = {
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            }
+    )
+    public List<AddressRest> getAddresses(
+            @PathVariable("id") String userId
+    ){
+        ModelMapper modelMapper = new ModelMapper();
+        List<AddressDto> addressDtoList = addressService.getAddresses(userId);
+        List<AddressRest> returnedValue = new ArrayList<>();
+        /*for (AddressDto addressDto:addressDtoList) {
+            AddressRest addressRest = modelMapper.map(addressDto, AddressRest.class);
+            returnedValue.add(addressRest);
+        }*/
+
+        Type listType = new TypeToken<List<AddressRest>>() {}.getType();
+        returnedValue = modelMapper.map(addressDtoList, listType);
+        return returnedValue;
+
+    }
+
+    @GetMapping(
+            path = "/{userId}/addresses/{addressId}",
+            produces = {
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            }
+    )
+    public AddressRest getAddress(
+            @PathVariable("addressId") String addressId
+    ){
+        AddressRest returnedValue = new AddressRest();
+        AddressDto addressDto = addressService.getAddressByAddressId(addressId);
+        if(addressDto == null)
+            throw new UsernameNotFoundException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        ModelMapper modelMapper = new ModelMapper();
+
+        returnedValue = modelMapper.map(addressDto, AddressRest.class);
+
+        return  returnedValue;
     }
 }
