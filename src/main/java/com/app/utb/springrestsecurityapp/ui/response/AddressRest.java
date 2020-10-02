@@ -1,9 +1,10 @@
 package com.app.utb.springrestsecurityapp.ui.response;
 
 import com.app.utb.springrestsecurityapp.dto.UserDto;
+import org.springframework.hateoas.RepresentationModel;
 
-public class AddressRest {
-
+//public class AddressRest extends RepresentationModel<AddressRest> if we are not using EntityModel class in the controller{
+public class AddressRest  extends RepresentationModel<AddressRest>{
 
     private String addressId;
     private String city;
