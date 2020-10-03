@@ -183,7 +183,7 @@ public class UserController {
                     .getAddress(userId, addressRest.getAddressId()))
                     .withSelfRel();
 
-            addressRest.add(selfRel);
+            addressRest.add(selfRel );
         }
 
 
