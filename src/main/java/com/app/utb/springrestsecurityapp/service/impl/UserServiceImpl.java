@@ -4,6 +4,7 @@ import com.app.utb.springrestsecurityapp.dto.AddressDto;
 import com.app.utb.springrestsecurityapp.dto.UserDto;
 import com.app.utb.springrestsecurityapp.entity.AddressEntity;
 import com.app.utb.springrestsecurityapp.entity.UserEntity;
+import com.app.utb.springrestsecurityapp.exceptions.UserServiceException;
 import com.app.utb.springrestsecurityapp.repositories.UserRepository;
 import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.response.ErrorMessages;
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public UserDto saveUser(UserDto userDto) {
         UserEntity enteredUser = userRepository.findByEmail(userDto.getEmail());
         if(enteredUser != null)
-            throw new RuntimeException("create user already exists");
+            throw new UserServiceException("create user already exists");
 
         //Simce user can have multiple address
         //we need to loop through the request and
