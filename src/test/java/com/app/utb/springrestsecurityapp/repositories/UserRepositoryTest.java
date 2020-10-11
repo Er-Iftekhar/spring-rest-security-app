@@ -66,6 +66,18 @@ class UserRepositoryTest {
 
     }
 
+    @Test
+    void findUserByKeyword(){
+        String keyword= "SY";
+        List<UserEntity> users = userRepository.findUserByKeyword(keyword);
+
+        assertNotNull(users);
+        assertTrue(users.size() == 2);
+        UserEntity user = users.get(0);
+
+        assertTrue(user.getFirstName().contains(keyword));
+
+    }
     private void createRecords(){
         UserEntity userEntity = new UserEntity();
 //        userEntity.setId(1L);
