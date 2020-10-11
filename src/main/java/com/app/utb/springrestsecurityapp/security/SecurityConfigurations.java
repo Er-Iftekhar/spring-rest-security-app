@@ -30,6 +30,7 @@ public class SecurityConfigurations   extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
+                .antMatchers(SecurityConstants.H2_CONSOLE).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -37,6 +38,8 @@ public class SecurityConfigurations   extends WebSecurityConfigurerAdapter {
                 .addFilter(new AuthorizationFilter(authenticationManager()))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+                http.headers().frameOptions().disable();
     }
 
     @Override
