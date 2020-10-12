@@ -27,6 +27,8 @@ class UserRepositoryTest {
 
     public static boolean areRecordsCreated = false;
 
+    String userId = "asas";
+
     @BeforeEach
     void setUp() {
         if(!areRecordsCreated)
@@ -95,13 +97,41 @@ class UserRepositoryTest {
     @Test
     void updateEmailVerificationStatusUsingUserId(){
         boolean email_verification_status = false;
-        String user_id = "asas";
 
-        userRepository.updateEmailVerificationStatusUsingUserId(email_verification_status, user_id);
-        UserEntity byUserId = userRepository.findByUserId(user_id);
 
-        assertEquals(byUserId.getUserId(), user_id);
+        userRepository.updateEmailVerificationStatusUsingUserId(email_verification_status, userId);
+        UserEntity byUserId = userRepository.findByUserId(userId);
+
+        assertEquals(byUserId.getUserId(), userId);
         assertEquals(byUserId.isEmailVerificationStatus(), email_verification_status);
+    }
+
+    @Test
+    final void testFindUserEntityByUserId(){
+
+        UserEntity userEntity = userRepository.findUserEntitybyUserId(userId);
+
+        assertEquals(userEntity.getUserId(), userId);
+
+    }
+
+
+    @Test
+    final void testGetUserFullNameByUserId(){
+        List<Object[]> fullNameByUserId = userRepository.getUserFullNameByUserId(userId);
+        Object[] objects = fullNameByUserId.get(0);
+        String firstName = String.valueOf(objects[0]);
+        String lastName = String.valueOf(objects[1]);
+        assertEquals(String.valueOf(firstName),"SYed");
+        assertEquals(String.valueOf(lastName),"LastName");
+    }
+
+    @Test
+    final void updateEmailVerificationStatusUsingUserIdJPQL(){
+        boolean status = true;
+        userRepository.updateEmailVerificationStatusUsingUserIdJPQL(status, userId);
+        UserEntity byUserId = userRepository.findByUserId(userId);
+        assertEquals(byUserId.isEmailVerificationStatus(), status);
     }
 
     private void createRecords(){

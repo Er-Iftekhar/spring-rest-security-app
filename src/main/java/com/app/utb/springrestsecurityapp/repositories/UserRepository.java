@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {
@@ -45,4 +46,20 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
     void updateEmailVerificationStatusUsingUserId(@Param("email_verification_status") boolean email_verification_status, @Param("user_id") String user_id);
 
 
+    @Query("select user from UserEntity user where user.userId=:userId")
+    UserEntity findUserEntitybyUserId(@Param("userId") String userId);
+
+
+    @Query("select user.firstName, user.lastName from UserEntity user where user.userId=:userId")
+    List<Object[]> getUserFullNameByUserId(@Param("userId")String userId);
+
+
+
+    @Transactional
+    @Modifying
+    @Query("update UserEntity user set user.emailVerificationStatus=:email_verification_status where user.userId=:user_id")
+    void updateEmailVerificationStatusUsingUserIdJPQL(
+            @Param("email_verification_status") boolean email_verification_status,
+            @Param("user_id") String user_id
+            );
 }
