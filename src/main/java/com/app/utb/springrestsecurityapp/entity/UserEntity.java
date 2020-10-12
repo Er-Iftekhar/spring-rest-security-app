@@ -37,6 +37,8 @@ public class UserEntity {
     )
     private List<AddressEntity> addresses;
 
+
+
     public Long getId() {
         return id;
     }

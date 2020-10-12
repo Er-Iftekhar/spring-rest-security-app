@@ -78,6 +78,32 @@ class UserRepositoryTest {
         assertTrue(user.getFirstName().contains(keyword));
 
     }
+
+    @Test
+    void findUserFirstNameAndLastNameByKeyword(){
+        String keyword = "SY";
+        List<Object[]> list = userRepository.findUserFirstNameAndLastNameByKeyword(keyword);
+        assertNotNull(list);
+        Object[] names = list.get(0);
+        String firstName = (String)names[0];
+        String lastName = (String)names[1];
+        assertTrue(firstName.equals("SYed"));
+        assertTrue(lastName.equals("LastName"));
+    }
+
+
+    @Test
+    void updateEmailVerificationStatusUsingUserId(){
+        boolean email_verification_status = false;
+        String user_id = "asas";
+
+        userRepository.updateEmailVerificationStatusUsingUserId(email_verification_status, user_id);
+        UserEntity byUserId = userRepository.findByUserId(user_id);
+
+        assertEquals(byUserId.getUserId(), user_id);
+        assertEquals(byUserId.isEmailVerificationStatus(), email_verification_status);
+    }
+
     private void createRecords(){
         UserEntity userEntity = new UserEntity();
 //        userEntity.setId(1L);
@@ -112,7 +138,7 @@ class UserRepositoryTest {
         userEntity2.setEmail("syedy636");
         userEntity2.setEmailVerificationStatus(false);
         userEntity2.setEncryptedPassword("pass");
-        userEntity2.setUserId("asas");
+        userEntity2.setUserId("asas2");
 
         AddressEntity addressEntity2 = new AddressEntity();
         addressEntity2.setAddressId("asas1");
