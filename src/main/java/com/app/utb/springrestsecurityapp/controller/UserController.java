@@ -8,6 +8,8 @@ import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.request.UserDetailsRequestModel;
 import com.app.utb.springrestsecurityapp.ui.response.*;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.hibernate.EntityMode;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -38,6 +40,16 @@ public class UserController {
         this.addressService = addressService;
     }
 
+
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "authorization",
+                    value = "${userController.authorizationHeader.description}",
+                    paramType ="header"
+            )
+    })
     @GetMapping(path = "/{id}",
             produces = {MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE})
@@ -51,6 +63,17 @@ public class UserController {
         return returnedValue;
     }
 
+
+
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "authorization",
+                    value = "${userController.authorizationHeader.description}",
+                    paramType ="header"
+            )
+    })
     @PostMapping(
             consumes = {
                     MediaType.APPLICATION_XML_VALUE,
@@ -82,6 +105,16 @@ public class UserController {
         return returnedValue;
     }
 
+
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "authorization",
+                    value = "${userController.authorizationHeader.description}",
+                    paramType ="header"
+            )
+    })
     @PutMapping(path = "/{id}",
             produces = {
                     MediaType.APPLICATION_XML_VALUE,
@@ -106,6 +139,16 @@ public class UserController {
         return returnedValue;
     }
 
+
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "authorization",
+                    value = "${userController.authorizationHeader.description}",
+                    paramType ="header"
+            )
+    })
     @DeleteMapping(path = "/{id}",
         produces = {
             MediaType.APPLICATION_XML_VALUE,
@@ -124,6 +167,14 @@ public class UserController {
         return returnedValue;
     }
 
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "authorization",
+                    value = "${userController.authorizationHeader.description}",
+                    paramType ="header"
+            )
+    })
     @GetMapping(
             produces = {
                     MediaType.APPLICATION_XML_VALUE,
@@ -147,6 +198,16 @@ public class UserController {
     }
 
 
+
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "authorization",
+                    value = "${userController.authorizationHeader.description}",
+                    paramType ="header"
+            )
+    })
     //http://localhost:2020/spring-rest-security-app/users/{userId}/addresses
     @GetMapping(
             path = "/{id}/addresses",
@@ -192,6 +253,15 @@ public class UserController {
     }
 
 
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "authorization",
+                    value = "${userController.authorizationHeader.description}",
+                    paramType ="header"
+            )
+    })
     @GetMapping(
             path = "/{userId}/addresses/{addressId}",
             produces = {
