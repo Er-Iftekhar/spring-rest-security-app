@@ -10,6 +10,7 @@ import com.app.utb.springrestsecurityapp.ui.response.*;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.hibernate.EntityMode;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -43,6 +44,10 @@ public class UserController {
 
 
 
+    @ApiOperation(
+            value = "The Get User Details Web Service Endpoint",
+            notes = "${userController.GetUser.ApiOperation.Notes}"
+    )
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "authorization",
@@ -67,6 +72,10 @@ public class UserController {
 
 
 
+    @ApiOperation(
+            value = "The Create User  Web Service Endpoint",
+            notes = "${userController.CreateUser.ApiOperation.Notes}"
+    )
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "authorization",
@@ -108,6 +117,10 @@ public class UserController {
 
 
 
+    @ApiOperation(
+            value = "The Update User Details Web Service Endpoint",
+            notes = "${userController.UpdateUser.ApiOperation.Notes}"
+    )
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "authorization",
@@ -142,6 +155,10 @@ public class UserController {
 
 
 
+    @ApiOperation(
+            value = "The Delete User Details Web Service Endpoint",
+            notes = "${userController.DeleteUser.ApiOperation.Notes}"
+    )
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "authorization",
@@ -168,6 +185,11 @@ public class UserController {
     }
 
 
+
+    @ApiOperation(
+            value = "The Get Users  Web Service Endpoint",
+            notes = "${userController.GetUsers.ApiOperation.Notes}"
+    )
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "authorization",
@@ -201,6 +223,10 @@ public class UserController {
 
 
 
+    @ApiOperation(
+            value = "The Get Addresses  Web Service Endpoint",
+            notes = "${userController.GetAddresses.ApiOperation.Notes}"
+    )
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "authorization",
@@ -255,6 +281,10 @@ public class UserController {
 
 
 
+    @ApiOperation(
+            value = "The Get Address Details Web Service Endpoint",
+            notes = "${userController.GetAddress.ApiOperation.Notes}"
+    )
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "authorization",
