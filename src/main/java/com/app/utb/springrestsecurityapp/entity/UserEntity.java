@@ -1,6 +1,7 @@
 package com.app.utb.springrestsecurityapp.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -36,6 +37,18 @@ public class UserEntity {
             cascade = CascadeType.ALL
     )
     private List<AddressEntity> addresses;
+
+
+    @ManyToMany(
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name="users_roles",
+            joinColumns = @JoinColumn(name="users_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id")
+    )
+    private Collection<RoleEntity> roles;
 
 
 
