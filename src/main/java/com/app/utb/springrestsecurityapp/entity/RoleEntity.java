@@ -21,7 +21,22 @@ public class RoleEntity implements Serializable {
     private Collection<UserEntity> users;
 
 
+    @ManyToMany
+    @JoinTable(
+            name="roles_authorities",
+            joinColumns = @JoinColumn(name="roles_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authorities_id", referencedColumnName = "id")
+    )
+    private Collection<AuthorityEntity> authorities;
 
+
+    public Collection<AuthorityEntity> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<AuthorityEntity> authorities) {
+        this.authorities = authorities;
+    }
 
     public long getId() {
         return id;
