@@ -52,6 +52,8 @@ public class UserEntity {
 
 
 
+
+
     public Long getId() {
         return id;
     }
@@ -122,5 +124,13 @@ public class UserEntity {
 
     public void setAddresses(List<AddressEntity> addresses) {
         this.addresses = addresses;
+    }
+
+    public Collection<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<RoleEntity> roles) {
+        this.roles = roles;
     }
 }
