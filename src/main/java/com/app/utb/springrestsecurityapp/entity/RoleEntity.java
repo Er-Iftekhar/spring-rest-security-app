@@ -30,12 +30,12 @@ public class RoleEntity implements Serializable {
     private Collection<AuthorityEntity> authorities;
 
 
-    public Collection<AuthorityEntity> getAuthorities() {
-        return authorities;
+
+    public RoleEntity(String name) {
+        this.name = name;
     }
 
-    public void setAuthorities(Collection<AuthorityEntity> authorities) {
-        this.authorities = authorities;
+    public RoleEntity() {
     }
 
     public long getId() {
@@ -60,5 +60,14 @@ public class RoleEntity implements Serializable {
 
     public void setUsers(Collection<UserEntity> users) {
         this.users = users;
+    }
+
+
+    public Collection<AuthorityEntity> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<AuthorityEntity> authorities) {
+        this.authorities = authorities;
     }
 }
