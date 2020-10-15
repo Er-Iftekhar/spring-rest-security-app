@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+
 import java.util.ArrayList;
 
 @Component
@@ -27,15 +28,17 @@ public class MyUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
 
         UserEntity storedValue = userRepository.findByEmail(username);
+
+
         if(storedValue == null)
             throw new UsernameNotFoundException("User "+ username + " not found");
 
-        UserDto userDto = new UserDto();
+        return new UserPrincipal(storedValue);
+
+
+        /*UserDto userDto = new UserDto();
         BeanUtils.copyProperties(storedValue, userDto);
-
-
-
-        return new User(storedValue.getEmail(), storedValue.getEncryptedPassword(), new ArrayList<>());
+        return new User(storedValue.getEmail(), storedValue.getEncryptedPassword(), new ArrayList<>());*/
 
     }
 }
