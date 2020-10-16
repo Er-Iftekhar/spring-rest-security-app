@@ -1,8 +1,8 @@
 package com.app.utb.springrestsecurityapp.security;
 
 
+import com.app.utb.springrestsecurityapp.repositories.UserRepository;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,10 +16,12 @@ public class SecurityConfigurations   extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
-    public SecurityConfigurations(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public SecurityConfigurations(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
 
@@ -39,7 +41,7 @@ public class SecurityConfigurations   extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .addFilter(getAuthenticationFilter())
-                .addFilter(new AuthorizationFilter(authenticationManager()))
+                .addFilter(new AuthorizationFilter(authenticationManager(), userRepository))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

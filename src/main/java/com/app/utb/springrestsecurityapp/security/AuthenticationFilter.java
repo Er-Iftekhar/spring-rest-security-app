@@ -59,7 +59,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             throws IOException, ServletException {
 
         //getting the authenticated user.
-        String username = ((User) authResult.getPrincipal()).getUsername();
+        //Since we are implementing UserDetails to our class UserPrincipal
+        //So we have get username from UserPrincipal class.
+        String username = ((UserPrincipal) authResult.getPrincipal()).getUsername();
 
         String token = Jwts.builder()//create a JWS object
                 .setSubject(username)
