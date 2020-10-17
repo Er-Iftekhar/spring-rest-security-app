@@ -50,7 +50,6 @@ public class AddressServiceImpl implements AddressService {
         List<AddressDto> returnedValue = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
 
-
         UserEntity byUserId = userRepository.findByUserId(userId);
         if (byUserId == null)
             return returnedValue;

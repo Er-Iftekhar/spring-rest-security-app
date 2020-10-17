@@ -6,6 +6,7 @@ import com.app.utb.springrestsecurityapp.entity.AddressEntity;
 import com.app.utb.springrestsecurityapp.entity.UserEntity;
 import com.app.utb.springrestsecurityapp.exceptions.UserServiceException;
 import com.app.utb.springrestsecurityapp.repositories.UserRepository;
+import com.app.utb.springrestsecurityapp.security.UserPrincipal;
 import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.response.ErrorMessages;
 import com.app.utb.springrestsecurityapp.utils.Utils;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -143,6 +145,25 @@ public class UserServiceImpl implements UserService {
             returnedValue.add(userDto);
         }
         return returnedValue;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+
+        UserEntity storedValue = userRepository.findByEmail(username);
+
+
+        if(storedValue == null)
+            throw new UsernameNotFoundException("User "+ username + " not found");
+
+        return new UserPrincipal(storedValue);
+
+
+        /*UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(storedValue, userDto);
+        return new User(storedValue.getEmail(), storedValue.getEncryptedPassword(), new ArrayList<>());*/
+
     }
 
 

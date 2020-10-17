@@ -2,6 +2,7 @@ package com.app.utb.springrestsecurityapp.security;
 
 
 import com.app.utb.springrestsecurityapp.repositories.UserRepository;
+import com.app.utb.springrestsecurityapp.service.UserService;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,11 +15,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfigurations   extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
+    private final UserService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public SecurityConfigurations(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public SecurityConfigurations(UserService userDetailsService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -37,6 +38,8 @@ public class SecurityConfigurations   extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
                 .permitAll()
+                .antMatchers(HttpMethod.DELETE,"/users/**")
+                .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

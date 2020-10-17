@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UserPrincipal implements UserDetails {
 
-    private final UserEntity userEntity;
+     UserEntity userEntity;
     public UserPrincipal(UserEntity userEntity) {
         this.userEntity = userEntity;
     }

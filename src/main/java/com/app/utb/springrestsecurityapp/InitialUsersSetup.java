@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @Component
+@Transactional
 public class InitialUsersSetup {
 
     private final AuthorityRepository authorityRepository;
@@ -61,8 +62,8 @@ public class InitialUsersSetup {
     }
 
 
-    @Transactional
-    private AuthorityEntity createAuthority(String name){
+//    @Transactional
+    public AuthorityEntity createAuthority(String name){
 
         AuthorityEntity authority = authorityRepository.findByName(name);
         if(authority == null)
@@ -74,8 +75,8 @@ public class InitialUsersSetup {
     }
 
 
-    @Transactional
-    private RoleEntity createRole(
+//    @Transactional
+    public RoleEntity createRole(
             String name,
             Collection<AuthorityEntity> authorities
     ){

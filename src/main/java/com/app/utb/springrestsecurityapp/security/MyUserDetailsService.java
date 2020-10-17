@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Component
+//@Component
 public class MyUserDetailsService implements UserDetailsService {
 
 
