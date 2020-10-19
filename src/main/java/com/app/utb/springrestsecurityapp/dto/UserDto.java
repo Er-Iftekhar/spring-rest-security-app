@@ -1,5 +1,6 @@
 package com.app.utb.springrestsecurityapp.dto;
 
+import java.util.Collection;
 import java.util.List;
 
 public class UserDto {
@@ -14,6 +15,7 @@ public class UserDto {
     private String emailVerificationToken;
     private boolean emailVerificationStatus = false;
     private List<AddressDto> addresses;
+    private Collection<String> roles;
 
     public List<AddressDto> getAddresses() {
         return addresses;
@@ -95,5 +97,11 @@ public class UserDto {
         this.emailVerificationStatus = emailVerificationStatus;
     }
 
+    public Collection<String> getRoles() {
+        return roles;
+    }
 
+    public void setRoles(Collection<String> roles) {
+        this.roles = roles;
+    }
 }

@@ -2,8 +2,10 @@ package com.app.utb.springrestsecurityapp.service.impl;
 
 import com.app.utb.springrestsecurityapp.dto.AddressDto;
 import com.app.utb.springrestsecurityapp.dto.UserDto;
+import com.app.utb.springrestsecurityapp.entity.RoleEntity;
 import com.app.utb.springrestsecurityapp.entity.UserEntity;
 import com.app.utb.springrestsecurityapp.exceptions.UserServiceException;
+import com.app.utb.springrestsecurityapp.repositories.RoleRepository;
 import com.app.utb.springrestsecurityapp.repositories.UserRepository;
 import com.app.utb.springrestsecurityapp.security.UserPrincipal;
 import com.app.utb.springrestsecurityapp.service.UserService;
@@ -20,6 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -29,12 +33,14 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder  passwordEncoder;
 
     private final Utils utils;
+    private final RoleRepository roleRepository;
 
     public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder, Utils utils) {
+                           PasswordEncoder passwordEncoder, Utils utils, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.utils = utils;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -55,13 +61,27 @@ public class UserServiceImpl implements UserService {
 
         userDto.setUserId(utils.generateUserId(30));
 
+
+
         ModelMapper modelMapper = new ModelMapper();
         //BeanUtils.copyProperties(userDto, userEntity);
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
 //        userEntity.setUserId("testId");
         userEntity.setEncryptedPassword(passwordEncoder.encode("pass"));
         userEntity.setEmailVerificationToken("testToken");
+
+        Collection<RoleEntity> roles = new HashSet<>();
+        for (String role:userDto.getRoles()) {
+            RoleEntity roleEntity = roleRepository.findByName(role);
+            if(roleEntity !=null){
+                roles.add(roleEntity);
+            }
+        }
+        userEntity.setRoles(roles);
+
+
         UserEntity storedUser = userRepository.save(userEntity);
+
 
 
 //        BeanUtils.copyProperties(storedUser, returnedValue);

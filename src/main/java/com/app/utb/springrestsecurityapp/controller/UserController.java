@@ -5,6 +5,7 @@ import com.app.utb.springrestsecurityapp.dto.UserDto;
 import com.app.utb.springrestsecurityapp.exceptions.UserServiceException;
 import com.app.utb.springrestsecurityapp.service.AddressService;
 import com.app.utb.springrestsecurityapp.service.UserService;
+import com.app.utb.springrestsecurityapp.shared.Roles;
 import com.app.utb.springrestsecurityapp.ui.request.UserDetailsRequestModel;
 import com.app.utb.springrestsecurityapp.ui.response.*;
 
@@ -22,6 +23,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilderDsl;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -46,6 +49,7 @@ public class UserController {
 
 
 
+    @PostAuthorize("hasRole('ROLE_ADMIN') or returnObject.getUserId() == principal.userId")
     @ApiOperation(
             value = "The Get User Details Web Service Endpoint",
             notes = "${userController.GetUser.ApiOperation.Notes}"
@@ -106,6 +110,8 @@ public class UserController {
         //BeanUtils.copyProperties(userDetailsRequestModel, userDto);
         ModelMapper modelMapper = new ModelMapper();
         UserDto userDto = modelMapper.map(userDetailsRequestModel, UserDto.class);
+        userDto.setRoles(new HashSet<>(Arrays.asList(Roles.ROLE_USER.name())));
+
 
         UserDto storedValue = userService.saveUser(userDto);
 
@@ -153,6 +159,7 @@ public class UserController {
         BeanUtils.copyProperties(updatedUser, returnedValue);
         return returnedValue;
     }
+
 
 
 

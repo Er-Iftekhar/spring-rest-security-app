@@ -7,6 +7,7 @@ import com.app.utb.springrestsecurityapp.entity.UserEntity;
 import com.app.utb.springrestsecurityapp.repositories.AuthorityRepository;
 import com.app.utb.springrestsecurityapp.repositories.RoleRepository;
 import com.app.utb.springrestsecurityapp.repositories.UserRepository;
+import com.app.utb.springrestsecurityapp.shared.Roles;
 import com.app.utb.springrestsecurityapp.utils.Utils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -43,9 +44,9 @@ public class InitialUsersSetup {
         AuthorityEntity writeAuthority = createAuthority("WRITE_AUTHORITY");
         AuthorityEntity deleteAuthority = createAuthority("DELETE_AUTHORITY");
 
-        RoleEntity userRole = createRole("ROLE_USER", Arrays.asList(readAuthority, writeAuthority));
+        createRole(Roles.ROLE_USER.name(), Arrays.asList(readAuthority, writeAuthority));
 
-        RoleEntity roleAdmin = createRole("ROLE_ADMIN", Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
+        RoleEntity roleAdmin = createRole(Roles.ROLE_ADMIN.name(), Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
 
         if(roleAdmin !=null){
             UserEntity userEntity = new UserEntity();
