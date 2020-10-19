@@ -21,6 +21,8 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilderDsl;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -155,6 +157,10 @@ public class UserController {
 
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #id == principal.userId")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('DELETE_AUTHORITY')")
+    //@Secured("ROLE_ADMIN   ")
     @ApiOperation(
             value = "The Delete User Details Web Service Endpoint",
             notes = "${userController.DeleteUser.ApiOperation.Notes}"

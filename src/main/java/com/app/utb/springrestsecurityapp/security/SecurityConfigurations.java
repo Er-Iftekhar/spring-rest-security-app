@@ -13,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityConfigurations   extends WebSecurityConfigurerAdapter {
 
@@ -40,8 +40,8 @@ public class SecurityConfigurations   extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
                 .permitAll()
-                .antMatchers(HttpMethod.DELETE,"/users/**")
-                .hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE,"/users/**")
+//                .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

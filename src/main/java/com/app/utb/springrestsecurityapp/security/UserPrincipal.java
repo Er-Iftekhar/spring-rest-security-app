@@ -13,9 +13,12 @@ import java.util.List;
 
 public class UserPrincipal implements UserDetails {
 
-     UserEntity userEntity;
+     private UserEntity userEntity;
+     private String userId;
+
     public UserPrincipal(UserEntity userEntity) {
         this.userEntity = userEntity;
+        this.userId = userEntity.getUserId();
     }
 
 
@@ -72,5 +75,14 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return userEntity.isEmailVerificationStatus();
+    }
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

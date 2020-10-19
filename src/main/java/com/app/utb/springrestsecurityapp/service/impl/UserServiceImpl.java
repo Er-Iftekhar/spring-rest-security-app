@@ -2,7 +2,6 @@ package com.app.utb.springrestsecurityapp.service.impl;
 
 import com.app.utb.springrestsecurityapp.dto.AddressDto;
 import com.app.utb.springrestsecurityapp.dto.UserDto;
-import com.app.utb.springrestsecurityapp.entity.AddressEntity;
 import com.app.utb.springrestsecurityapp.entity.UserEntity;
 import com.app.utb.springrestsecurityapp.exceptions.UserServiceException;
 import com.app.utb.springrestsecurityapp.repositories.UserRepository;
@@ -11,9 +10,7 @@ import com.app.utb.springrestsecurityapp.service.UserService;
 import com.app.utb.springrestsecurityapp.ui.response.ErrorMessages;
 import com.app.utb.springrestsecurityapp.utils.Utils;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,10 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {

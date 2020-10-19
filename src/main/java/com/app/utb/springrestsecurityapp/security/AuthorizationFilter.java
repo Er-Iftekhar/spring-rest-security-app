@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class AuthorizationFilter  extends BasicAuthenticationFilter {
 
@@ -52,8 +51,10 @@ public class AuthorizationFilter  extends BasicAuthenticationFilter {
 
             if(user != null){
                 UserEntity userEntity = userRepository.findByEmail(user);
+                if(userEntity == null) return null;
+
                 UserPrincipal userPrincipal = new UserPrincipal(userEntity);
-                return new UsernamePasswordAuthenticationToken(user, null, userPrincipal.getAuthorities());
+                return new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
             }
             return null;
         }

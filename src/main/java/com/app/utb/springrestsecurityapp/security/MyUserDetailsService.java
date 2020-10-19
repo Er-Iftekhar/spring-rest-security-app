@@ -1,17 +1,10 @@
 package com.app.utb.springrestsecurityapp.security;
 
-import com.app.utb.springrestsecurityapp.dto.UserDto;
 import com.app.utb.springrestsecurityapp.entity.UserEntity;
 import com.app.utb.springrestsecurityapp.repositories.UserRepository;
-import org.springframework.beans.BeanUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
-
-
-import java.util.ArrayList;
 
 //@Component
 public class MyUserDetailsService implements UserDetailsService {
